@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,29 +7,19 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/eCode.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/img/logo.svg"/>
 </head>
-<body>
+<body class="bg-dark">
     @Html.Partial("_Topo")
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted bg-dark">
-        <section class="container d-inline-flex justify-content-between align-items-center">
-            <div class="text-light">
-                Redes sociais
-            </div>
-            <div class="text-light">
-                &copy; 2023 - eCode - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-            <div class="text-light">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">eCode <span style="color: #44BD32;">Dev</span></a>
-            </div>
-        </section>
+    <footer class="footer text-muted bg-dark borderTop-dark" style="line-height: 40px;">
+        @Html.Partial("_Rodape")
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

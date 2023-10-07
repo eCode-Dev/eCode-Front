@@ -13,6 +13,22 @@ html {
   min-height: 100%;
 }
 
+.borderBottom-dark {
+    border-bottom: 1px solid #1E1E1E;
+}
+
+.borderTop-dark {
+    border-top: 1px solid #1E1E1E;
+}
+
+p {
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
