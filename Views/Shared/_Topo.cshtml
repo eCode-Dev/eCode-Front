@@ -10,13 +10,27 @@
                 <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
                     <li class="nav-item">
                         <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">&rsaquo; Início</a>
-                    </li>          
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="">&rsaquo; Entrar</a>
+                        <div class="dropdown">
+                            <a class="nav-link text-light dropdown-toggle" href="#" role="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                &rsaquo; Desafios
+                            </a>
+
+                            <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenu">
+                                <li><a class="dropdown-item text-light" href="#">Back-end</a></li>
+                                <li><a class="dropdown-item text-light" href="#">Front-end</a></li>
+                                <li><a class="dropdown-item text-light" href="#">Mobile</a></li>
+                                <li><a class="dropdown-item text-light" href="#">Full stack</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="">&rsaquo; Ranking</a>
                     </li>
                 </ul>
-                <div style="margin-left: 1.8rem;">
-                    <button class="btn btn-light" style="color: #44BD32 !important" name="btnCadastrar" id="btnCadastrar">Cadastrar</button>
+                <div style="margin-left: 1.2rem; text-align: center;">
+                    <button class="btn" style="background-color: #44BD32 !important; color: #fff;" name="btnCadastrar" id="btnCadastrar">Entrar</button>
                 </div>
             </div>
         </div>
