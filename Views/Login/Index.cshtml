@@ -1,0 +1,36 @@
+﻿<section class="form-container">
+    <h1>Já possui cadastro?</h1>
+    <p><small>Faça seu login!</small></p>
+
+    @if (TempData["Erro"] != null)
+    {
+        <p class="alert-danger">
+            Ocorreu um erro!<br />
+            <span class="text-danger">
+                @TempData["Erro"]
+            </span>
+        </p>
+    }
+
+    @using (Html.BeginForm("Autenticar", "Login", FormMethod.Post, new { @class = "form"}))
+    {
+        <div class="form-items-container">
+            <div class="form-items text-light">
+                <label class="form-label" for="txtEmail">E-mail:</label>
+                <input type="email" class="form-text" name="txtEmail" id="txtEmail" value="@TempData["Email"]" maxlength="100" />
+            </div>
+            <div class="form-items text-light">
+                <label class="form-label" for="txtSenha">Senha:</label>
+                <input type="password" class="form-text" name="txtSenha" id="txtSenha" value="@TempData["Senha"]" min="8" maxlength="20" />
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
+            <div class="d-flex flex-wrap justify-content-between align-items-center linksCadastro">
+                <a href="#" class="text-decoration-underline linkCadastrar">Cadastre-se</a>
+                <a href="#" class="link-light text-decoration-underline">Esqueci minha senha</a>
+            </div>
+
+            <button type="submit" class="btn btnAutenticar" id="btnAutenticar" name="btnAutenticar">ENTRAR</button>
+        </div>
+    }
+</section>

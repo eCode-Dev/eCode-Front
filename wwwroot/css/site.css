@@ -1,16 +1,26 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
+
+    .form-container {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        width: 80%;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 .borderBottom-dark {
@@ -31,4 +41,112 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
     margin-bottom: 60px;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #44BD32;
+    color: white;
+}
+
+.btnEntrar {
+    background-color: #44BD32;
+    color: #fff;
+}
+
+.btnEntrar:hover, .btnEntrar:focus {
+    transition: all 200ms;
+    background-color: transparent;
+    color: #44BD32;
+    border: 1px solid #44BD32;
+}
+
+.form {
+    width: 100%;
+}
+
+.form-container {
+    width: 80%;
+    max-width: 500px;
+    padding: 24px;
+    margin: 1.5rem auto 1rem;
+    text-align: center;
+    border: 1px solid #44BD32;
+    border-radius: 4px;
+}
+
+.form-container h1 {
+    margin-bottom: 0px !important;
+}
+
+.form-container p {
+    margin: 0 0 1.2rem;
+}
+
+.form-items-container {
+    width: 80%;
+    margin: 1rem auto 0px;
+}
+
+.form-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    align-items: center;
+    justify-content: center;
+}
+
+.form-items:first-child {
+    margin-bottom: 1.2rem;
+}
+
+.form-items label {
+    margin: 0px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.form-items input {
+    outline-width: 1px;
+    outline-color: #44BD32;
+    width: 100%;
+
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    color: #333;
+}
+
+.linksCadastro {
+    width: 80%;
+    margin: .8rem auto 2rem;
+}
+
+.linkCadastrar {
+    color: white;
+}
+
+.linkCadastrar:hover, .linkCadastrar:hover {
+    color: #44BD32;
+    transition: all 200ms;
+}
+
+.btnAutenticar {
+    border: 1px solid #44BD32;
+    color: #44BD32;
+    padding: 8px 32px;
+    width: 80%;
+    margin: 1.2rem auto 0;
+    border-radius: 1rem !important;
+}
+
+.btnAutenticar:hover, .btnAutenticar:focus {
+    transition: all 200ms;
+    color: #44BD32;
+    border: 1px solid #1ee101;
+    box-shadow: 4px 5px 7px -2px rgb(32 105 21 / 77%);
+}
+
+.alert-danger {
+    border-radius: 4px;
+    padding: 12px;
 }
