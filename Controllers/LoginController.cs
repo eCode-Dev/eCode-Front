@@ -4,10 +4,7 @@ namespace eCode.Controllers
 {
     public class LoginController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        #region Eventos
 
         [HttpPost]
         public IActionResult Autenticar()
@@ -27,6 +24,16 @@ namespace eCode.Controllers
                 return Redirect("~/login");
             }
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        #endregion
+
+
+        #region Validacoes
 
         private string ValidarCamposLogin()
         {
@@ -71,6 +78,8 @@ namespace eCode.Controllers
 
             return mensagem;
         }
+
+        #endregion
 
 
         private string Email { get {  return Request.Form["email"].ToString(); } }
