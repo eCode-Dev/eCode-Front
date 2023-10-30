@@ -18,6 +18,12 @@ html {
     }
 }
 
+@media (max-width: 367px) {
+    .container-cards {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+    }
+}
+
 html {
     position: relative;
     min-height: 100%;
@@ -51,6 +57,50 @@ body {
 .btnEntrar {
     background-color: #44BD32;
     color: #fff;
+}
+
+.container-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    width: 100%;
+    gap: 0.8rem;
+    margin-bottom: 32px;
+}
+
+.cards-desafio {
+    text-decoration: none;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.2rem;
+}
+
+.cards-desafio:hover {
+    transition: 200ms all;
+    border: 1px solid #44BD32;
+    border-radius: 8px;
+}
+
+.cards-item__img {
+    width: 90%;
+    text-align: center;
+    margin: 0 auto 0.6rem;
+    height: 200px;
+}
+
+.cards-item__img img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.cards-item__info h4 {
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.cards-item__info p {
+    color: #333;
+    font-size: .8rem;
+    text-align: justify;
 }
 
 .btnEntrar:hover, .btnEntrar:focus {
