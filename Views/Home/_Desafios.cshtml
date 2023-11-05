@@ -1,46 +1,27 @@
-﻿<h3 style="text-align: left;">
+﻿@model List<eCode.Models.eDesafios>
+
+<h3 style="text-align: left;">
     Ultimos desafios:
 </h3>
 
 <div style="clear: both; height: 12px;"></div>
 
-<section class="container-cards">
-    <a href="#" title="Item 1" class="cards-desafio">
-        <div class="cards-item__img">
-            <img title="imagem 1" alt="imagem 1" />
-        </div>
-        <div class="cards-item__info">
-            <h4>> Lorem ipsum</h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis nisi ac tincidunt accumsan.
-                Etiam sagittis, lacus in dapibus aliquet, neque lectus feugiat sem, varius congue est leo quis metus. Pellentesque euismod orci vitae efficitur commodo.
-            </p>
-        </div>
-    </a>
-
-    <a href="#" title="Item 2" class="cards-desafio">
-        <div class="cards-item__img">
-            <img title="imagem 1" alt="imagem 1" />
-        </div>
-        <div class="cards-item__info">
-            <h4>> Lorem ipsum</h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis nisi ac tincidunt accumsan.
-                Etiam sagittis, lacus in dapibus aliquet, neque lectus feugiat sem, varius congue est leo quis metus. Pellentesque euismod orci vitae efficitur commodo.
-            </p>
-        </div>
-    </a>
-
-    <a href="#" title="Item 3" class="cards-desafio">
-        <div class="cards-item__img">
-            <img title="imagem 1" alt="imagem 1" />
-        </div>
-        <div class="cards-item__info">
-            <h4>> Lorem ipsum</h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin convallis nisi ac tincidunt accumsan.
-                Etiam sagittis, lacus in dapibus aliquet, neque lectus feugiat sem, varius congue est leo quis metus. Pellentesque euismod orci vitae efficitur commodo.
-            </p>
-        </div>
-    </a>
-</section>
+@if (Model != null && Model.Count > 0)
+{
+    <section class="container-cards">
+        @foreach (eDesafios desafio in Model)
+        {
+            <a href="@desafio.Repositorio" title="@desafio.Titulo" class="cards-desafio" target="_blank">
+                <div class="cards-item__img">
+                    <img src="~/@string.Format("Capas/{0}", desafio.Foto)" title="@desafio.Titulo" alt="@desafio.Titulo" />
+                </div>
+                <div class="cards-item__info">
+                    <h4>> @desafio.Titulo</h4>
+                    <p>
+                        @desafio.Descricao
+                    </p>
+                </div>
+            </a>
+        }
+    </section>
+}
