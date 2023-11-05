@@ -81,9 +81,9 @@ body {
 }
 
 .cards-item__img {
-    width: 90%;
+    width: 100%;
     text-align: center;
-    margin: 0 auto 0.6rem;
+    margin: 0 0 0.6rem;
     height: 200px;
 }
 
