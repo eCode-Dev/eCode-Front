@@ -1,12 +1,14 @@
 ﻿using System.Data;
+using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace eCode.Models
 {
     public class API
     {
-        #region Banco Dados Conexão
+        #region Metodos Privado
 
         private string RetornarJSONQuerySelect(string query)
         {
@@ -38,7 +40,7 @@ namespace eCode.Models
 
         public List<eDesafios>? ListarDesafiosHome()
         {
-            List<eDesafios>? lista = new();
+            List<eDesafios>? lista = new List<eDesafios>();
             string json = RetornarJSONQuerySelect("SELECT * FROM ecodedev.desafios WHERE (Visivel = 'S' AND Apoiador = 'N') ORDER BY Id DESC LIMIT 3");
 
             if (!string.IsNullOrEmpty(json))
@@ -47,6 +49,32 @@ namespace eCode.Models
             }
 
             return lista;
+        }
+
+        public eCliente? ObterUsuario(int idCliente)
+        {
+            List<eCliente>? lista = new List<eCliente>();
+            string json = RetornarJSONQuerySelect(string.Format("SELECT Id, Nome, Perfil, Apoiador FROM ecodedev.clientes WHERE (Id = {0} AND Visivel = 'S')", idCliente));
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eCliente>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0] : null;
+        }
+
+        public eGenericoCampos? VerificarExisteUsuario(string email, string senha)
+        {
+            List<eGenericoCampos>? lista = new List<eGenericoCampos>();
+            string json = RetornarJSONQuerySelect(string.Format("SELECT Id, Nome AS Campo FROM ecodedev.clientes WHERE (Email = '{0}' AND Senha = '{1}' AND Visivel = 'S')", email, senha));
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eGenericoCampos>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0] : null;
         }
 
         #endregion
