@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using eCode.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace eCode.Controllers
 {
@@ -13,7 +17,33 @@ namespace eCode.Controllers
 
             if (string.IsNullOrEmpty(mensagem))
             {
-                return Redirect("~/");
+                API api = new API();
+
+                eGenericoCampos? eCampo = api.VerificarExisteUsuario(Email, Senha);
+
+                if (eCampo != null)
+                {
+                    eCliente? eCliente = api.ObterUsuario(eCampo.Id);
+                    var opcoesDoCookie = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddHours(1),
+                    };
+
+                    Response.Cookies.Append("Codigo", eCliente.Id.ToString(), opcoesDoCookie);
+                    Response.Cookies.Append("Cliente", eCliente.Nome, opcoesDoCookie);
+                    Response.Cookies.Append("Perfil", eCliente.Perfil, opcoesDoCookie);
+                    Response.Cookies.Append("Apoiador", eCliente.Apoiador, opcoesDoCookie);
+
+                    return Redirect("~/");
+                }
+                else
+                {
+                    TempData["Erro"] = "Por favor, verifique os dados digitados, pois os mesmo são inválidos!";
+                    TempData["Email"] = Email;
+                    TempData["Senha"] = Senha;
+
+                    return Redirect("~/login");
+                }
             }
             else
             {
@@ -25,9 +55,27 @@ namespace eCode.Controllers
             }
         }
 
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Sair()
+        {
+            if (Request.Cookies.ContainsKey("Cliente") || Request.Cookies.ContainsKey("Perfil") || Request.Cookies.ContainsKey("Apoiador") || Request.Cookies.ContainsKey("Codigo"))
+            {
+                Response.Cookies.Delete("Apoiador");
+                Response.Cookies.Delete("Cliente");
+                Response.Cookies.Delete("Codigo");
+                Response.Cookies.Delete("Perfil");
+            }
+
+            return Redirect("~/login");
         }
 
         #endregion
@@ -82,7 +130,7 @@ namespace eCode.Controllers
         #endregion
 
 
-        private string Email { get {  return Request.Form["email"].ToString(); } }
-        private string Senha { get { return Request.Form["senha"].ToString(); } }
+        private string Email { get {  return Request.Form["txtEmail"].ToString(); } }
+        private string Senha { get { return Request.Form["txtSenha"].ToString(); } }
     }
 }

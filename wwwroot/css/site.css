@@ -59,6 +59,11 @@ body {
     color: #fff;
 }
 
+.btnLogout {
+    background-color: #eb4d4b;
+    color: #fff;
+}
+
 .container-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -108,6 +113,13 @@ body {
     background-color: transparent;
     color: #44BD32;
     border: 1px solid #44BD32;
+}
+
+.btnLogout:hover, .btnLogout:focus {
+    transition: all 200ms;
+    background-color: transparent;
+    color: #eb4d4b;
+    border: 1px solid #eb4d4b;
 }
 
 .form {
