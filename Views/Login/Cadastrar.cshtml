@@ -1,0 +1,75 @@
+﻿@{
+    string selected = string.Empty;
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    ViewData["Title"] = "Faça seu cadastro";
+}
+
+<section class="form-cadastro">
+    <h1>Cadastre-se</h1>
+    <p><small>Rápido e fácil!</small></p>
+
+    @if (TempData["Sucess"] != null)
+    {
+        <p class="alert-success">
+            <span style="font-size: 1.2rem;">Sucesso!</span><br />
+            <span class="text-dark">
+                @TempData["Sucess"]
+            </span>
+            <br /><br />
+        </p>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <p class="alert-danger">
+            <span style="font-size: 1.2rem;">
+                Ocorreu um erro!
+            </span><br />
+            <span class="text-danger">
+                @TempData["Erro"]
+            </span>
+        </p>
+    }
+
+    @using (Html.BeginForm("CadastrarCliente", "Login", FormMethod.Post, new { @class = "form" }))
+    {
+        <div class="form-items-container">
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtNome">Nome completo:</label>
+                <input type="text" class="form-text" name="txtNome" id="txtNome" value="@TempData["Nome"]" maxlength="100" />
+            </div>
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtCpf">CPF:</label>
+                <input type="text" class="form-text" name="txtCpf" id="txtCpf" value="@TempData["CPF"]" maxlength="100" />
+            </div>
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtTelefone">Telefone:</label>
+                <input type="tel" class="form-text" name="txtTelefone" id="txtTelefone" value="@TempData["Telefone"]" maxlength="100" />
+            </div>
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="ddlNivel">Tipo de nível:</label>
+                <select class="form-text" name="ddlNivel" id="ddlNivel">
+                    @{
+                        selected = TempData["Nivel"] != null && (string.Equals(TempData["Nivel"].ToString(), "A") || string.Equals(TempData["Nivel"].ToString(), "B") || string.Equals(TempData["Nivel"].ToString(), "I")) ? "selected" : string.Empty;
+                    }
+
+                    <option value="A" selected="@selected">Avançando</option>
+                    <option value="B" selected="@selected">Básico</option>
+                    <option value="I" selected="@selected">Intermediário</option>
+                    <option value="" selected>Selecione seu nível de stack</option>
+                </select>
+            </div>
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtEmail">E-mail:</label>
+                <input type="email" class="form-text" name="txtEmail" id="txtEmail" value="@TempData["Email"]" maxlength="100" />
+            </div>
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtSenha">Senha:</label>
+                <input type="password" class="form-text" name="txtSenha" id="txtSenha" value="@TempData["Senha"]" min="8" maxlength="20" />
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
+            <button type="submit" class="btn btn-sucesso" id="btnCadastrar" name="btnCadastrar">SALVAR</button>
+        </div>
+    }
+</section>

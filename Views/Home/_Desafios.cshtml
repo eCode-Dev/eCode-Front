@@ -1,4 +1,7 @@
 ﻿@model List<eCode.Models.eDesafios>
+@{
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+}
 
 <h3 style="text-align: left;">
     Ultimos desafios:
@@ -11,7 +14,7 @@
     <section class="container-cards">
         @foreach (eDesafios desafio in Model)
         {
-            <a href="@desafio.Repositorio" title="@desafio.Titulo" class="cards-desafio" target="_blank">
+            <a href="@(cookieLogado == null ? "/login" : desafio.Repositorio)" title="@desafio.Titulo" class="cards-desafio" target="_blank">
                 <div class="cards-item__img">
                     <img src="~/@string.Format("Capas/{0}", desafio.Foto)" title="@desafio.Titulo" alt="@desafio.Titulo" />
                 </div>

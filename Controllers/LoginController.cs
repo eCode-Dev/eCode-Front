@@ -18,22 +18,12 @@ namespace eCode.Controllers
             if (string.IsNullOrEmpty(mensagem))
             {
                 API api = new API();
-
                 eGenericoCampos? eCampo = api.VerificarExisteUsuario(Email, Senha);
 
                 if (eCampo != null)
                 {
-                    eCliente? eCliente = api.ObterUsuario(eCampo.Id);
-                    var opcoesDoCookie = new CookieOptions
-                    {
-                        Expires = DateTime.Now.AddHours(1),
-                    };
-
-                    Response.Cookies.Append("Codigo", eCliente.Id.ToString(), opcoesDoCookie);
-                    Response.Cookies.Append("Cliente", eCliente.Nome, opcoesDoCookie);
-                    Response.Cookies.Append("Perfil", eCliente.Perfil, opcoesDoCookie);
-                    Response.Cookies.Append("Apoiador", eCliente.Apoiador, opcoesDoCookie);
-
+                    CriarCookie(api.ObterUsuario(eCampo.Id));
+                    
                     return Redirect("~/");
                 }
                 else
@@ -55,9 +45,32 @@ namespace eCode.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult CadastrarCliente()
+        {
+            API api = new API();
+            eCliente entidade = new eCliente()
+            {
+
+            };
+
+            if (entidade.Id > 0)
+            {
+                api.GravarCliente(entidade);
+            }
+
+            return View();
+        }
+
         public IActionResult Dashboard()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult FormCadastro()
+        {
+            return View("Cadastrar");
         }
 
         public IActionResult Index()
@@ -81,7 +94,20 @@ namespace eCode.Controllers
         #endregion
 
 
-        #region Validacoes
+        #region Metodo Privados
+
+        private void CriarCookie(eCliente? e)
+        {
+            var opcoesDoCookie = new CookieOptions
+            {
+                Expires = DateTime.Now.AddHours(1),
+            };
+
+            Response.Cookies.Append("Codigo", e.Id.ToString(), opcoesDoCookie);
+            Response.Cookies.Append("Cliente", e.Nome, opcoesDoCookie);
+            Response.Cookies.Append("Perfil", e.Perfil, opcoesDoCookie);
+            Response.Cookies.Append("Apoiador", e.Apoiador, opcoesDoCookie);
+        }
 
         private string ValidarCamposLogin()
         {
