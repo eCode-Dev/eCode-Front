@@ -20,6 +20,11 @@ app.MapControllerRoute(
     defaults: new {controller="Login", action="Index"});
 
 app.MapControllerRoute(
+    name: "cadastrar",
+    pattern: "cadastre-se",
+    defaults: new { controller = "Login", action = "FormCadastro" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

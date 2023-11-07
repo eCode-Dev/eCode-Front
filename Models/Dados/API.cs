@@ -1,8 +1,9 @@
-﻿using System.Data;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Data;
+using System.Reflection;
+using System.Text;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace eCode.Models
 {
@@ -10,13 +11,40 @@ namespace eCode.Models
     {
         #region Metodos Privado
 
+        private string RetornarJSONQueryInsert<T>(T entidade, string query) where T : class
+        {
+            DataTable dt = new DataTable();
+            using (MySqlConnection conexao = new MySqlConnection(ObterConnectionString()))
+            {
+                conexao.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, conexao))
+                {
+                    PropertyInfo[] propriedades = typeof(T).GetProperties();
+                    foreach (PropertyInfo propriedade in propriedades)
+                    {
+                        cmd.Parameters.AddWithValue("@" + propriedade.Name, propriedade.GetValue(entidade));
+                    }
+
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "SELECT LAST_INSERT_ID()";
+
+                    int id = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    dt.Columns.Add("Id", typeof(int));
+                    dt.Rows.Add(id);
+                }
+            }
+
+            return JsonConvert.SerializeObject(dt, Formatting.Indented);
+        }
+
         private string RetornarJSONQuerySelect(string query)
         {
             DataTable dt = new DataTable();
-            using (MySqlConnection connection = new MySqlConnection(ObterConnectionString()))
+            using (MySqlConnection conexao = new MySqlConnection(ObterConnectionString()))
             {
-                connection.Open();
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                conexao.Open();
+                using (MySqlCommand command = new MySqlCommand(query, conexao))
                 {
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                     {
@@ -37,6 +65,24 @@ namespace eCode.Models
 
 
         #region Metodos
+
+        public int GravarCliente(eCliente e)
+        {
+            List<eGenericoCampos>? lista = new List<eGenericoCampos>();
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("INSERT INTO ecodedev.cliente (Nome, CPF, Email, Senha, Telefone, DataHora, Visivel, Apoiador, Perfil) ");
+            sb.Append(string.Format("VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}'); ", e.Nome, e.CPF, e.Email, e.Senha, e.Telefone, DateTime.Now, e.Visivel, e.Apoiador, e.Perfil));
+
+            string json = RetornarJSONQueryInsert(e, sb.ToString());
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eGenericoCampos>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0].Id : 0;
+        }
 
         public List<eDesafios>? ListarDesafiosHome()
         {

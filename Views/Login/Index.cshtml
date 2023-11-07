@@ -1,11 +1,17 @@
-﻿<section class="form-container">
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="form-container">
     <h1>Já possui cadastro?</h1>
     <p><small>Faça seu login!</small></p>
 
     @if (TempData["Erro"] != null)
     {
         <p class="alert-danger">
-            Ocorreu um erro!<br />
+            <span style="font-size: 1.2rem;">
+                Ocorreu um erro!
+            </span><br />
             <span class="text-danger">
                 @TempData["Erro"]
             </span>
@@ -26,11 +32,11 @@
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
             <div class="d-flex flex-wrap justify-content-between align-items-center linksCadastro">
-                <a href="#" class="text-decoration-underline linkCadastrar">Cadastre-se</a>
+                <a href="cadastre-se" class="text-decoration-underline linkCadastrar">Cadastre-se</a>
                 <a href="#" class="link-light text-decoration-underline">Esqueci minha senha</a>
             </div>
 
-            <button type="submit" class="btn btnAutenticar" id="btnAutenticar" name="btnAutenticar">ENTRAR</button>
+            <button type="submit" class="btn btn-sucesso" id="btnAutenticar" name="btnAutenticar">ENTRAR</button>
         </div>
     }
 </section>
