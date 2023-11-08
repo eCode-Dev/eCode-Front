@@ -1,0 +1,45 @@
+﻿@{
+    string selected = string.Empty;
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    ViewData["Title"] = "Recuperar credencial";
+}
+
+<section class="form-cadastro">
+    <h1>Recuperar credencial</h1>
+
+    @if (TempData["Sucess"] != null)
+    {
+        <p class="alert-success">
+            <span style="font-size: 1.2rem;">Sucesso!</span><br />
+            <span class="text-dark">
+                @TempData["Sucess"]
+            </span>
+            <br /><br />
+        </p>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <p class="alert-danger">
+            <span style="font-size: 1.2rem;">
+                Ocorreu um erro!
+            </span><br />
+            <span class="text-danger">
+                @TempData["Erro"]
+            </span>
+        </p>
+    }
+
+    @using (Html.BeginForm("RecuperarCredencial", "Login", FormMethod.Post, new { @class = "form" }))
+    {
+        <div class="form-items-container">
+            <div class="form-items-cadastro text-light">
+                <label class="form-label" for="txtEmail"><span class="text-danger">&bull; </span>E-mail:</label>
+                <input type="email" class="form-text" name="txtEmail" id="txtEmail" value="@TempData["Email"]" maxlength="100" />
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
+            <button type="submit" class="btn btn-sucesso" id="btnCadastrar" name="btnCadastrar">RECUPERAR</button>
+        </div>
+    }
+</section>

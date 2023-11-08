@@ -71,8 +71,8 @@ namespace eCode.Models
             List<eGenericoCampos>? lista = new List<eGenericoCampos>();
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("INSERT INTO ecodedev.cliente (Nome, CPF, Email, Senha, Telefone, DataHora, Visivel, Apoiador, Perfil) ");
-            sb.Append(string.Format("VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}'); ", e.Nome, e.CPF, e.Email, e.Senha, e.Telefone, DateTime.Now, e.Visivel, e.Apoiador, e.Perfil));
+            sb.Append("INSERT INTO ecodedev.clientes (Nome, CPF, Email, Senha, Telefone, DataHora, Visivel, Apoiador, Perfil) ");
+            sb.Append(string.Format("VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}'); ", e.Nome, e.CPF, e.Email, e.Senha, e.Telefone, e.DataHora.ToString("yyyy-MM-dd HH:mm:ss"), e.Visivel, e.Apoiador, e.Perfil));
 
             string json = RetornarJSONQueryInsert(e, sb.ToString());
 

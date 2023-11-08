@@ -35,36 +35,38 @@
     {
         <div class="form-items-container">
             <div class="form-items-cadastro text-light">
-                <label class="form-label" for="txtNome">Nome completo:</label>
+                <label class="form-label" for="txtNome"><span class="text-danger">&bull; </span>Nome completo:</label>
                 <input type="text" class="form-text" name="txtNome" id="txtNome" value="@TempData["Nome"]" maxlength="100" />
             </div>
             <div class="form-items-cadastro text-light">
-                <label class="form-label" for="txtCpf">CPF:</label>
-                <input type="text" class="form-text" name="txtCpf" id="txtCpf" value="@TempData["CPF"]" maxlength="100" />
+                <label class="form-label" for="txtCpf"><span class="text-danger">&bull; </span>CPF:</label>
+                <input type="text" class="form-text" name="txtCpf" id="txtCpf" value="@TempData["CPF"]" maxlength="14" />
             </div>
             <div class="form-items-cadastro text-light">
                 <label class="form-label" for="txtTelefone">Telefone:</label>
                 <input type="tel" class="form-text" name="txtTelefone" id="txtTelefone" value="@TempData["Telefone"]" maxlength="100" />
             </div>
-            <div class="form-items-cadastro text-light">
-                <label class="form-label" for="ddlNivel">Tipo de nível:</label>
-                <select class="form-text" name="ddlNivel" id="ddlNivel">
-                    @{
-                        selected = TempData["Nivel"] != null && (string.Equals(TempData["Nivel"].ToString(), "A") || string.Equals(TempData["Nivel"].ToString(), "B") || string.Equals(TempData["Nivel"].ToString(), "I")) ? "selected" : string.Empty;
-                    }
+            @if (cookieLogado != null)
+            {
+                <div class="form-items-cadastro text-light">
+                    <label class="form-label" for="ddlNivel"><span class="text-danger">&bull; </span>Perfil:</label>
+                    <select class="form-text" name="ddlNivel" id="ddlNivel">
+                        @{
+                            selected = TempData["Nivel"] != null && (string.Equals(TempData["Nivel"].ToString(), "A") || string.Equals(TempData["Nivel"].ToString(), "R")) ? "selected" : string.Empty;
+                        }
 
-                    <option value="A" selected="@selected">Avançando</option>
-                    <option value="B" selected="@selected">Básico</option>
-                    <option value="I" selected="@selected">Intermediário</option>
-                    <option value="" selected>Selecione seu nível de stack</option>
-                </select>
-            </div>
+                        <option value="A" selected="@selected">Administrador(a)</option>
+                        <option value="R" selected="@selected">Restrito(a)</option>
+                        <option value="" selected>Selecione seu nível de stack</option>
+                    </select>
+                </div>                
+            }
             <div class="form-items-cadastro text-light">
-                <label class="form-label" for="txtEmail">E-mail:</label>
+                <label class="form-label" for="txtEmail"><span class="text-danger">&bull; </span>E-mail:</label>
                 <input type="email" class="form-text" name="txtEmail" id="txtEmail" value="@TempData["Email"]" maxlength="100" />
             </div>
             <div class="form-items-cadastro text-light">
-                <label class="form-label" for="txtSenha">Senha:</label>
+                <label class="form-label" for="txtSenha"><span class="text-danger">&bull; </span>Senha:</label>
                 <input type="password" class="form-text" name="txtSenha" id="txtSenha" value="@TempData["Senha"]" min="8" maxlength="20" />
             </div>
         </div>
@@ -73,3 +75,20 @@
         </div>
     }
 </section>
+
+<script>
+    const txtCpf = document.getElementById('txtCpf');
+    txtCpf.addEventListener('input', function () {
+        let value = txtCpf.value.replace(/\D/g, '');
+
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+
+        if (value.length > 0) {
+            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+
+        txtCpf.value = value;
+    });
+</script>
