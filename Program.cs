@@ -25,6 +25,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Login", action = "FormCadastro" });
 
 app.MapControllerRoute(
+    name: "recuperar senha",
+    pattern: "credenciais",
+    defaults: new { controller = "Login", action = "FormRecuperar" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
