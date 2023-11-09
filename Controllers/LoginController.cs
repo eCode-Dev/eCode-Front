@@ -6,7 +6,67 @@ namespace eCode.Controllers
 {
     public class LoginController : Controller
     {
-        #region Eventos
+        #region Eventos POST
+
+        [HttpPost]
+        public IActionResult AlterarCliente()
+        {
+            string mensagem = ValidarCampos();
+            TempData["LabelOpcao"] = "Alterar";
+
+            if (string.IsNullOrEmpty(mensagem))
+            {
+                API api = new API();
+                var cookie = Request.Cookies["Cliente"];
+                int id = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0;
+
+                eCliente entidade = new eCliente()
+                {
+                    Nome = Nome,
+                    CPF = CPF,
+                    Perfil = cookie != null ? string.IsNullOrEmpty(Perfil) ? "R" : Perfil : "R",
+                    Telefone = Telefone,
+                    Email = Email,
+                    Senha = Senha,
+                    DataHora = DateTime.Now,
+                    Apoiador = "N",
+                    Id = id,
+                    Visivel = "S"
+                };
+
+                string? retorno = api.AlterarCliente(entidade);
+
+                if (!string.IsNullOrEmpty(retorno) && string.Equals(retorno.ToLower(), "sucesso"))
+                {
+                    TempData["Sucess"] = "Dados alterado com sucesso.";
+                    return Redirect("~/dados-pessoais");
+                }
+                else
+                {
+                    TempData["Erro"] = "Ocorreu um erro, por favor entre em contato com o suporte.";
+                    TempData["Nome"] = Nome;
+                    TempData["CPF"] = CPF;
+                    TempData["Telefone"] = Telefone;
+                    TempData["Nivel"] = Perfil;
+                    TempData["Email"] = Email;
+                    TempData["Senha"] = Senha;
+
+                    return Redirect("~/dados-pessoais");
+                }
+            }
+            else
+            {
+                TempData["Erro"] = mensagem;
+                TempData["Nome"] = Nome;
+                TempData["CPF"] = CPF;
+                TempData["Telefone"] = Telefone;
+                TempData["Nivel"] = Perfil;
+                TempData["Email"] = Email;
+                TempData["Senha"] = Senha;
+
+                return Redirect("~/cadastre-se");
+            }
+        }
 
         [HttpPost]
         public IActionResult Autenticar()
@@ -20,9 +80,9 @@ namespace eCode.Controllers
 
                 if (eCampo != null)
                 {
-                    CriarCookie(api.ObterUsuario(eCampo.Id));
+                    CriarCookie(api.ObterPerfil(eCampo.Id));
                     
-                    return Redirect("~/");
+                    return Redirect("~/dashboard");
                 }
                 else
                 {
@@ -69,10 +129,10 @@ namespace eCode.Controllers
                 int id = api.GravarCliente(entidade);
                 if (id > 0)
                 {
-                    CriarCookie(api.ObterUsuario(id));
+                    CriarCookie(api.ObterPerfil(id));
                     TempData["Sucess"] = "Dados gravados com sucesso.";
 
-                    return Redirect("~/cadastre-se");
+                    return Redirect("~/dashboard");
                 }
                 else
                 {
@@ -101,21 +161,6 @@ namespace eCode.Controllers
             }
         }
 
-        public IActionResult Dashboard()
-        {
-            return View();
-        }
-
-        public IActionResult FormCadastro()
-        {
-            return View("Cadastrar");
-        }
-
-        public IActionResult FormRecuperar()
-        {
-            return View("Senha");
-        }
-
         [HttpPost]
         public IActionResult RecuperarCredencial()
         {
@@ -132,6 +177,29 @@ namespace eCode.Controllers
 
                 return Redirect("~/credenciais");
             }
+        }
+
+        #endregion
+
+
+        #region Eventos GET
+
+        public IActionResult FormAlterar()
+        {
+            TempData["LabelOpcao"] = "Alterar";
+            int id = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0;
+
+            return View("Cadastrar", new API().ObterDados(id));
+        }
+
+        public IActionResult FormCadastro()
+        {
+            return View("Cadastrar");
+        }
+
+        public IActionResult FormRecuperar()
+        {
+            return View("Senha");
         }
 
         public IActionResult Index()
