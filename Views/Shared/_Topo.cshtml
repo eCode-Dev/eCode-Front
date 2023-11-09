@@ -39,6 +39,7 @@
                                     }
                                     @if (cookiePerfil != null && string.Equals(cookiePerfil.ToString(), "R"))
                                     {
+                                        <li><a class="dropdown-item text-light" asp-controller="Content" asp-action="Assinatura">&rsaquo; Assinaturas</a></li>
                                         <li><a class="dropdown-item text-light" asp-controller="Content" asp-action="DesafiosUpload">&rsaquo; Enviar desafio</a></li>
                                     }
                                 </ul>
@@ -53,15 +54,15 @@
                             </a>
 
                             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenu">
-                                <li><a class="dropdown-item text-light" href="#">&rsaquo; Back-end</a></li>
-                                <li><a class="dropdown-item text-light" href="#">&rsaquo; Front-end</a></li>
-                                <li><a class="dropdown-item text-light" href="#">&rsaquo; Mobile</a></li>
-                                <li><a class="dropdown-item text-light" href="#">&rsaquo; Full stack</a></li>
+                                <li><a class="dropdown-item text-light" href="~/desafios?filtro=B">&rsaquo; Back-end</a></li>
+                                <li><a class="dropdown-item text-light" href="~/desafios?filtro=F">&rsaquo; Front-end</a></li>
+                                <li><a class="dropdown-item text-light" href="~/desafios?filtro=M">&rsaquo; Mobile</a></li>
+                                <li><a class="dropdown-item text-light" href="~/desafios?filtro=S">&rsaquo; Full stack</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="">&rsaquo; Ranking</a>
+                        <a class="nav-link text-light" href="~/">&rsaquo; Ranking</a>
                     </li>
                 </ul>
                 <div style="margin-left: 1.2rem; text-align: center;">

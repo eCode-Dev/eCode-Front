@@ -35,6 +35,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Login", action = "FormAlterar" });
 
 app.MapControllerRoute(
+    name: "Desafios",
+    pattern: "desafios",
+    defaults: new { controller = "Content", action = "CarregarDesafios"});
+
+app.MapControllerRoute(
     name: "Dashboard",
     pattern: "dashboard",
     defaults: new { controller = "Content", action = "Index" });

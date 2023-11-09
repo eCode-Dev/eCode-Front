@@ -2,6 +2,7 @@
     var cookieLogado = Context.Request.Cookies["Cliente"];
     var cookiePerfil = Context.Request.Cookies["Perfil"];
     var cookieId = Context.Request.Cookies["Id"];
+    ViewData["Title"] = "Dashboard";
 }
 
 @if (cookieLogado != null)
