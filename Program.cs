@@ -30,6 +30,16 @@ app.MapControllerRoute(
     defaults: new { controller = "Login", action = "FormRecuperar" });
 
 app.MapControllerRoute(
+    name: "Dados Pessoais",
+    pattern: "dados-pessoais",
+    defaults: new { controller = "Login", action = "FormAlterar" });
+
+app.MapControllerRoute(
+    name: "Dashboard",
+    pattern: "dashboard",
+    defaults: new { controller = "Content", action = "Index" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

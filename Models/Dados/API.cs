@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Reflection;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -10,6 +9,11 @@ namespace eCode.Models
     public class API
     {
         #region Metodos Privado
+
+        private string ObterConnectionString()
+        {
+            return new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build().GetConnectionString("MySqlConnection");
+        }
 
         private string RetornarJSONQueryInsert<T>(T entidade, string query) where T : class
         {
@@ -56,15 +60,69 @@ namespace eCode.Models
             return JsonConvert.SerializeObject(dt, Formatting.Indented);
         }
 
-        private string ObterConnectionString()
+        private string RetornarJSONQueryUpdate<T>(T entidade, string query) where T : class
         {
-            return new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build().GetConnectionString("MySqlConnection");
+            DataTable dt = new DataTable();
+            int executou = 0;
+
+            using (MySqlConnection conexao = new MySqlConnection(ObterConnectionString()))
+            {
+                conexao.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, conexao))
+                {
+                    PropertyInfo[] propriedades = typeof(T).GetProperties();
+                    foreach (PropertyInfo propriedade in propriedades)
+                    {
+                        cmd.Parameters.AddWithValue("@" + propriedade.Name, propriedade.GetValue(entidade));
+                    }
+
+                    try
+                    {
+                        executou = cmd.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        executou = 0;
+                    }
+
+                    dt.Columns.Add("Campo", typeof(string));
+                    dt.Rows.Add(executou > 0 ? "Sucesso" : "Erro");
+                }
+            }
+
+            return JsonConvert.SerializeObject(dt, Formatting.Indented);
         }
 
         #endregion
 
 
         #region Metodos
+
+        public string? AlterarCliente(eCliente e)
+        {
+            List<eGenericoCampos>? lista = new List<eGenericoCampos>();
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("UPDATE ecodedev.clientes SET ");
+            sb.Append(string.Format("Nome = '{0}', ", e.Nome));
+            sb.Append(string.Format("CPF = '{0}', ", e.CPF));
+            sb.Append(string.Format("Email = '{0}', ", e.Email));
+            sb.Append(string.Format("Senha = '{0}', ", e.Senha));
+            sb.Append(string.Format("Telefone = '{0}', ", e.Telefone));
+            sb.Append(string.Format("Visivel = '{0}', ", e.Visivel));
+            sb.Append(string.Format("Apoiador = '{0}', ", e.Apoiador));
+            sb.Append(string.Format("Perfil = '{0}' ", e.Perfil));
+            sb.Append(string.Format("WHERE (Id = '{0}');", e.Id));
+
+            string json = RetornarJSONQueryUpdate(e, sb.ToString());
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eGenericoCampos>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0].Campo : string.Empty;
+        }
 
         public int GravarCliente(eCliente e)
         {
@@ -97,7 +155,20 @@ namespace eCode.Models
             return lista;
         }
 
-        public eCliente? ObterUsuario(int idCliente)
+        public eCliente? ObterDados(int idCliente)
+        {
+            List<eCliente>? lista = new List<eCliente>();
+            string json = RetornarJSONQuerySelect(string.Format("SELECT Id, Nome, CPF, Email, Senha, Telefone, DataHora, Visivel, Apoiador, Perfil FROM ecodedev.clientes WHERE (Id = {0} AND Visivel = 'S')", idCliente));
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eCliente>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0] : null;
+        }
+
+        public eCliente? ObterPerfil(int idCliente)
         {
             List<eCliente>? lista = new List<eCliente>();
             string json = RetornarJSONQuerySelect(string.Format("SELECT Id, Nome, Perfil, Apoiador FROM ecodedev.clientes WHERE (Id = {0} AND Visivel = 'S')", idCliente));
