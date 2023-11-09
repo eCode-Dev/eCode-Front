@@ -142,6 +142,39 @@ namespace eCode.Models
             return lista?.Count > 0 ? lista[0].Id : 0;
         }
 
+        public List<eDesafios>? ListarDesafios(string filtro, string? apoiador, string? perfil)
+        {
+            List<eDesafios>? lista = new List<eDesafios>();
+            StringBuilder sb = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(perfil) && string.Equals(perfil, "A"))
+            {
+                sb.Append(string.Format("SELECT * FROM ecodedev.desafios WHERE (Stack = '{0}') ORDER BY DataHora DESC, Titulo ASC LIMIT 250;", filtro));
+            }
+            else
+            {
+                if (string.Equals(apoiador, "S"))
+                {
+                    sb.Append("SELECT * FROM ecodedev.desafios ");
+                    sb.Append(string.Format("WHERE (Visivel = 'S' AND Stack = '{0}') ORDER BY DataHora DESC, Titulo ASC LIMIT 200;", filtro));
+                }
+                else
+                {
+                    sb.Append("SELECT * FROM ecodedev.desafios ");
+                    sb.Append(string.Format("WHERE (Visivel = 'S' AND Stack = '{0}' AND Apoiador = '{1}') ORDER BY DataHora DESC, Titulo ASC LIMIT 50;", filtro, apoiador));
+                }
+            }
+
+            string json = RetornarJSONQuerySelect(sb.ToString());
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eDesafios>?>(json);
+            }
+
+            return lista;
+        }
+
         public List<eDesafios>? ListarDesafiosHome()
         {
             List<eDesafios>? lista = new List<eDesafios>();

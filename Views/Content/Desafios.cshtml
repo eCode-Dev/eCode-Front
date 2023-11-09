@@ -1,5 +1,65 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<eCode.Models.eDesafios>
 @{
+    ViewData["Title"] = "Desafios";
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    var cookiePerfil = Context.Request.Cookies["Perfil"];
+    var cookieId = Context.Request.Cookies["Id"];
+
+    string filtro = string.Empty;
+
+    if (!string.IsNullOrEmpty(Context.Request.Query["filtro"]))
+    {
+        switch (Context.Request.Query["filtro"].ToString().ToUpper())
+        {
+            case "B":
+                filtro = "Back-end";
+                break;
+
+            case "F":
+                filtro = "Front-end";
+                break;
+
+            case "M":
+                filtro = "Mobile";
+                break;
+
+            case "S":
+                filtro = "Full-stack";
+                break;
+        }
+    }
+}
+
+<div style="clear: both; height: 20px;"></div>
+
+<h3 style="text-align: left;">
+    Desafios de @filtro
+</h3>
+
+<div style="clear: both; height: 20px;"></div>
+
+@if (Model != null && Model.Count > 0)
+{
+    <section class="container-cards">
+        @foreach (eDesafios desafio in Model)
+        {
+            <a href="@(cookieLogado == null ? "/login" : desafio.Repositorio)" title="@desafio.Titulo" class="cards-desafio" target="_blank">
+                <div class="cards-item__img">
+                    <img src="~/@string.Format("Capas/{0}", desafio.Foto)" title="@desafio.Titulo" alt="@desafio.Titulo" />
+                </div>
+                <div class="cards-item__info">
+                    <h4>> @desafio.Titulo</h4>
+                    <p>
+                        @desafio.Descricao
+                    </p>
+                </div>
+            </a>
+        }
+    </section>
+}
+else
+{
+    <section class="container">
+        <p style="font-size: 1.5rem; color: #44BD32;">Nenhum desafio de @filtro foi encontrado.</p>
+    </section>
 }
