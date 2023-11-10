@@ -255,6 +255,19 @@ namespace eCode.Models
             return lista;
         }
 
+        public List<eGenericoCampos>? ListarRanking()
+        {
+            List<eGenericoCampos>? lista = new List<eGenericoCampos>();
+            string json = RetornarJSONQuerySelect("SELECT SUM(D.Pontuacao) AS Total, C.Nome AS Campo FROM ecodedev.desafios_concluidos D INNER JOIN ecodedev.clientes C ON C.Id = D.IdCliente WHERE (C.Visivel = 'S' AND C.Perfil = 'R') GROUP BY C.Nome, D.Pontuacao, C.Id ORDER BY Total DESC LIMIT 20");
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eGenericoCampos>?>(json);
+            }
+
+            return lista;
+        }
+
         public eAssinatura? ObterAssinatura(int idCliente)
         {
             List<eAssinatura>? lista = new List<eAssinatura>();

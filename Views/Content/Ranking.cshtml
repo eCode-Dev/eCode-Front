@@ -1,3 +1,32 @@
-﻿@{
+﻿@model List<eCode.Models.eGenericoCampos>
+@{
     ViewData["Title"] = "Ranking";
+    int count = 1;
 }
+
+<section class="container">
+    <h3 style="text-align: left;">
+        &rsaquo; Lista de ranking
+    </h3>
+
+    <div style="clear: both; height: 12px;"></div>
+
+    <div class="ranking-container">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (eGenericoCampos item in Model)
+            {
+                <div class="rank-item">
+                    <span>#@count - @item.Campo</span>
+                    <span>@item.Total pts</span>
+                </div>
+
+                count++;
+            }
+        }
+        else
+        {
+            <p>Ranking indisponível no momento.</p>
+        }
+    </div>
+</section>

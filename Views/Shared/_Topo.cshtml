@@ -61,9 +61,12 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="~/">&rsaquo; Ranking</a>
-                    </li>
+                    @if (cookiePerfil != null && string.Equals(cookiePerfil, "R"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="~/ranking">&rsaquo; Ranking</a>
+                        </li>
+                    }
                 </ul>
                 <div style="margin-left: 1.2rem; text-align: center;">
                     @if (cookieLogado == null)

@@ -55,6 +55,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Content", action = "CarregarAssinatura" });
 
 app.MapControllerRoute(
+    name: "Ranking",
+    pattern: "ranking",
+    defaults: new { controller = "Content", action = "CarregarRanking" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
