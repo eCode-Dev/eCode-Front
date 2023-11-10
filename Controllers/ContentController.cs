@@ -132,7 +132,18 @@ namespace eCode.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            API api = new API();
+            var perfil = Request.Cookies["Perfil"];
+            int id = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0;
+
+            if (perfil != null && string.Equals(perfil, "A"))
+            {
+                return View("Index", api.ListarDashboardAdministrador());
+            }
+            else
+            {
+                return View("Index", api.ListarDashboardRestrito(id));
+            }
         }
 
         #endregion
