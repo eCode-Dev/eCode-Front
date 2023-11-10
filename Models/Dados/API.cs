@@ -209,6 +209,23 @@ namespace eCode.Models
             return lista?.Count > 0 ? lista[0].Id : 0;
         }
 
+        public void ExluirInformacaoDashBoard(int id, string? perfil)
+        {
+            eGenericoCampos e = new eGenericoCampos()
+            {
+                Id = id
+            };
+
+            if (string.Equals(perfil, "A"))
+            {
+                RetornarJSONQueryDelete(e, string.Format("DELETE FROM ecodedev.desafios WHERE (Id = '{0}');", e.Id));
+            }
+            else
+            {
+                RetornarJSONQueryDelete(e, string.Format("DELETE FROM ecodedev.desafios_concluidos WHERE (Id = '{0}');", e.Id));
+            }
+        }
+
         public List<eDesafios>? ListarDashboardAdministrador()
         {
             List<eDesafios>? lista = new List<eDesafios>();

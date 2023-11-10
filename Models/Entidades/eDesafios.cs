@@ -7,6 +7,7 @@
         public DateTime DataHoraEnviado { get; set; }
         public string? Descricao { get; set; }
         public string? Foto { get; set; }
+        public int Id { get; set; }
         public int Pontuacao { get; set; }
         public string? Repositorio { get; set; }
         public string? Titulo { get; set; }

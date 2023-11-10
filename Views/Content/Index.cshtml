@@ -37,7 +37,8 @@
                                 <h2 class="titulo">@item.Titulo</h2>
                                 <p class="date-time">@DateTime.Parse(item.DataHora).ToString(@"dd/MM/yyyy 'às' HH:mm")</p>
                                 <div class="buttons">
-                                    <button class="delete-button">Excluir</button>
+                                    <input type="hidden" id="hdnId" name="hdnId" value="@item.Id" />
+                                    <button class="delete-button" asp-controller="Content" asp-action="ExcluirDashboard">Excluir</button>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +66,11 @@
                                 <p class="date-time">@item.DataHoraEnviado.ToString(@"dd/MM/yyyy 'às' HH:mm")</p>
                                 <p class="score">Pontuação: @item.Pontuacao pts</p>
                                 <div class="buttons">
-                                    <button class="delete-button">Excluir</button>
+                                    <input type="hidden" id="hdnId" name="hdnId" value="@item.Id" />
+                                    @using (Html.BeginForm("ExcluirDashboard", "Content", FormMethod.Post, new { @class = "form" }))
+                                    {
+                                        <button type="submit" class="delete-button">Excluir</button>                                        
+                                    }
                                 </div>
                             </div>
                         </div>
