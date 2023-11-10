@@ -10,6 +10,29 @@ namespace eCode.Controllers
         #region Eventos POST
 
         [HttpPost]
+        public IActionResult CancelarAssinatura()
+        {
+            API api = new API();
+
+            eGenericoCampos eAssinatura = new eGenericoCampos()
+            {
+                Campo = "N",
+                Id = string.IsNullOrEmpty(Request.Form["hdnId"]) ? 0 : Convert.ToInt32(Request.Form["hdnId"])
+            };
+
+            eGenericoCampos eCliente = new eGenericoCampos()
+            {
+                Campo = "N",
+                Id = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0
+            };
+
+            api.AlterarClienteApoiador(eCliente);
+            api.AlterarPlano(eAssinatura);
+
+            return Redirect("~/dashboard");
+        }
+
+        [HttpPost]
         public IActionResult RealizarPagamento()
         {
             string mensagem = ValidarCamposPagamento();
@@ -18,12 +41,17 @@ namespace eCode.Controllers
             {
                 API api = new API();
                 eAssinatura entidade = new eAssinatura();
+                eGenericoCampos eCampos = new eGenericoCampos();
+
                 entidade.Ativo = "S";
                 entidade.IdCliente = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0;
                 entidade.TipoPagamento = TipoPagamento.ToUpper();
                 entidade.TipoPlano = TipoPlano.ToUpper();
                 entidade.DataHora = DateTime.Now;
                 entidade.DataPagamento = !string.Equals(TipoPagamento.ToUpper(), "C") ? DateTime.Now.AddDays(3) : DateTime.Now.AddMinutes(5);
+
+                eCampos.Campo = "S";
+                eCampos.Id = entidade.IdCliente;
 
                 switch (TipoPlano.ToUpper())
                 {
@@ -43,10 +71,12 @@ namespace eCode.Controllers
                         break;
                 }
 
+                api.AlterarClienteApoiador(eCampos);
                 string? retorno = api.GravarAssinatura(entidade);
 
                 if (!string.IsNullOrEmpty(retorno) && string.Equals(retorno.ToLower(), "sucesso"))
                 {
+                    CriarCookie("S");
                     TempData["Sucess"] = string.Equals(TipoPagamento.ToUpper(), "B") ? string.Format("{0}, você receberá um boleto por e-mail", Request.Cookies["Cliente"]) : "Compra aprovada com sucesso.";
                     return Redirect("~/dashboard");
                 }
@@ -76,6 +106,11 @@ namespace eCode.Controllers
 
         #region Eventos GET
 
+        public IActionResult CarregarAssinatura()
+        {
+            return View("Assinatura", new API().ObterAssinatura(Convert.ToInt32(Request.Cookies["Codigo"])));
+        }
+
         public IActionResult CarregarDesafios()
         {
             API api = new API();
@@ -100,6 +135,18 @@ namespace eCode.Controllers
 
 
         #region Metodos Privados
+
+        private void CriarCookie(string apoiador)
+        {
+            Response.Cookies.Delete("Apoiador");
+
+            var opcoesDoCookie = new CookieOptions
+            {
+                Expires = DateTime.Now.AddHours(1),
+            };
+
+            Response.Cookies.Append("Apoiador", apoiador, opcoesDoCookie);
+        }
 
         private string ValidarCamposPagamento()
         {
