@@ -1,0 +1,118 @@
+﻿@{
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    var cookiePerfil = Context.Request.Cookies["Perfil"];
+    var cookieId = Context.Request.Cookies["Codigo"];
+    string tipoPlano = Context.Request.Query["plan"];
+
+    ViewData["Title"] = "Pagamento";
+}
+
+<section class="form-container">
+    <h1>Informações de Pagamento</h1>
+    <p><small>Realize seu pagamento aqui!</small></p>
+
+    @if (TempData["Sucess"] != null)
+    {
+        <p class="alert-success">
+            <span style="font-size: 1.2rem;">Sucesso!</span><br />
+            <span class="text-dark">
+                @TempData["Sucess"]
+            </span>
+            <br /><br />
+        </p>
+    }
+
+    @if (TempData["Erro"] != null)
+    {
+        <p class="alert-danger">
+            <span style="font-size: 1.2rem;">
+                Ocorreu um erro!
+            </span><br />
+            <span class="text-danger">
+                @TempData["Erro"]
+            </span>
+        </p>
+    }
+
+    @if (cookieId != null)
+    {
+        @using (Html.BeginForm("RealizarPagamento", "Content", FormMethod.Post, new { @class = "form" }))
+        {
+            <div class="form-items-container">
+                <div class="form-items text-light">
+                    <input type="hidden" name="hdnTipoPlano" id="hdnTipoPlano" value="@tipoPlano" />
+                    <label class="form-label" for="ddlTipoPagamento"><span class="text-danger">&bull; </span>Método de pagamento:</label>
+                    <select id="ddlTipoPagamento" name="ddlTipoPagamento" class="form-text" required>
+                        <option value="" selected>Selecionar método...</option>
+                        <option value="c">Cartão de crédito</option>
+                        <option value="b">Boleto bancário</option>
+                    </select>
+                </div>
+                <div class="form-items text-light" id="cartao-info" style="display: none;">
+                    <div class="form-items text-light">
+                        <label for="txtNumero" class="form-label"><span class="text-danger">&bull; </span>Número do cartão</label>
+                        <input type="text" class="form-text" id="txtNumero" value="@TempData["NumeroCartao"]" name="txtNumero" onkeyup="AplicarMascaraCartao();" oninput="PermitirApenasNumeros(this);" maxlength="20">
+                    </div>
+
+                    <div class="form-items text-light">
+                        <label for="txtDataValidade" class="form-label"><span class="text-danger">&bull; </span>Data de válidade</label>
+                        <input type="text" class="form-text" id="txtDataValidade" value="@TempData["DataValidade"]" name="txtDataValidade" onkeyup="FormatarData(this)" maxlength="10">
+                    </div>
+
+                    <div class="form-items text-light">
+                        <label for="txtCvv" class="form-label"><span class="text-danger">&bull; </span>CVV</label>
+                        <input type="text" class="form-text" id="txtCvv" value="@TempData["CVV"]" name="txtCvv" oninput="PermitirApenasNumeros(this)" maxlength="4">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
+                <button type="submit" class="btn btn-sucesso" id="btnAutenticar" name="btnAutenticar">Finalizar assinatura</button>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-light">
+            Para realizar o pagamento é preciso
+            <a href="~/cadastre-se" class="link-warning">&rsaquo; Cadastre-se</a>
+            ou faça <br> o <a href="~/login" class="link-success">&rsaquo; Login</a>, para damos continuidade.
+        </p>
+    }
+</section>
+
+<script>
+    const metodoPagamento = document.getElementById('ddlTipoPagamento');
+    const cartaoInfo = document.getElementById('cartao-info');
+
+    metodoPagamento.addEventListener('change', function () {
+        cartaoInfo.style.display = 'none';
+
+        const selecionar = metodoPagamento.value;
+
+        if (selecionar === 'c') {
+            cartaoInfo.style.display = 'block';
+        } else if (selecionar === 'b') {
+            boletoInfo.style.display = 'block';
+        } else if (selecionar === 'pix') {
+            pixInfo.style.display = 'block';
+        }
+    });
+
+    function AplicarMascaraCartao() {
+        var numeroCartao = document.getElementById("txtNumero").value.replace(/\D/g, '');
+        numeroCartao = numeroCartao.replace(/(\d{4})(?=\d)/g, '$1 ');
+        console.log(numeroCartao)
+
+        document.getElementById("txtNumero").value = numeroCartao;
+    }
+
+    function FormatarData(input) {
+        var inputValue = input.value.replace(/\D/g, '');
+        inputValue = inputValue.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+        input.value = inputValue;
+    }
+
+    function PermitirApenasNumeros(input) {
+        input.value = input.value.replace(/\D/g, '');
+    }
+</script>

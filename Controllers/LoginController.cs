@@ -189,7 +189,7 @@ namespace eCode.Controllers
             TempData["LabelOpcao"] = "Alterar";
             int id = Request.Cookies["Codigo"] != null ? Convert.ToInt32(Request.Cookies["Codigo"]) : 0;
 
-            return View("Cadastrar", new API().ObterDados(id));
+            return View("Cadastrar", new API().ObterDadosCliente(id));
         }
 
         public IActionResult FormCadastro()

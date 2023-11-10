@@ -83,11 +83,11 @@ body {
     padding: 1.2rem;
 }
 
-.cards-desafio:hover {
-    transition: 200ms all;
-    border: 1px solid #44BD32;
-    border-radius: 8px;
-}
+    .cards-desafio:hover {
+        transition: 200ms all;
+        border: 1px solid #44BD32;
+        border-radius: 8px;
+    }
 
 .cards-item__img {
     width: 100%;
@@ -96,10 +96,11 @@ body {
     height: 200px;
 }
 
-.cards-item__img img {
-    width: 100%;
-    object-fit: cover;
-}
+    .cards-item__img img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
 
 .cards-item__info h4 {
     color: #333;
@@ -150,13 +151,13 @@ body {
     border-radius: 4px;
 }
 
-.form-container h1, .form-cadastro h1 {
-    margin-bottom: 0px !important;
-}
+    .form-container h1, .form-cadastro h1 {
+        margin-bottom: 0px !important;
+    }
 
-.form-container p, .form-cadastro p {
-    margin: 0 0 1.2rem;
-}
+    .form-container p, .form-cadastro p {
+        margin: 0 0 1.2rem;
+    }
 
 .form-items-container {
     width: 80%;
@@ -195,7 +196,16 @@ body {
     outline-width: 1px;
     outline-color: #44BD32;
     width: 100%;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    color: #333;
+}
 
+.form-items select {
+    outline-width: 1px;
+    outline-color: #44BD32;
+    width: 100%;
     padding: 8px 12px;
     border-radius: 4px;
     border: none;
@@ -231,10 +241,14 @@ body {
     color: white;
 }
 
-.linkCadastrar:hover, .linkCadastrar:hover {
+.link-success {
     color: #44BD32;
-    transition: all 200ms;
 }
+
+    .linkCadastrar:hover, .linkCadastrar:hover {
+        color: #44BD32;
+        transition: all 200ms;
+    }
 
 .btn-sucesso {
     border: 1px solid #44BD32;
@@ -245,12 +259,12 @@ body {
     border-radius: 1rem !important;
 }
 
-.btn-sucesso:hover, .btn-sucesso:focus {
-    transition: all 200ms;
-    color: #44BD32;
-    border: 1px solid #1ee101;
-    box-shadow: 4px 5px 7px -2px rgb(32 105 21 / 77%);
-}
+    .btn-sucesso:hover, .btn-sucesso:focus {
+        transition: all 200ms;
+        color: #44BD32;
+        border: 1px solid #1ee101;
+        box-shadow: 4px 5px 7px -2px rgb(32 105 21 / 77%);
+    }
 
 .alert-danger {
     border-radius: 4px;
@@ -260,4 +274,62 @@ body {
 .alert-success {
     border-radius: 4px;
     padding: 12px;
+}
+
+.plan-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.plano {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 312px;
+    text-align: left;
+}
+
+.plano h2, .plano p {
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn-escolher-plano {
+    background-color: #50b445;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .btn-escolher-plano:hover {
+        background-color: #4ca541;
+        color: #fff;
+        text-decoration: none;
+    }
+
+#valor {
+    font-size: large;
+    color: #4ca541;
 }

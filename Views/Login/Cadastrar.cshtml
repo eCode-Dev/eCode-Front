@@ -131,9 +131,9 @@
         txtTelefone.value = value;
     });
 
-    var nivelSelecionado = "@TempData["Nivel"]";
+    var nivelSelecionado = "@(TempData["Nivel"] != null ? TempData["Nivel"].ToString() : string.Empty)";
 
-    if (nivelSelecionado) {
+    if (nivelSelecionado !== '') {
         document.getElementById("ddlNivel").value = nivelSelecionado;
     }
 </script>

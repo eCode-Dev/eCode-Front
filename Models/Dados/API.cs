@@ -124,6 +124,25 @@ namespace eCode.Models
             return lista?.Count > 0 ? lista[0].Campo : string.Empty;
         }
 
+        public string? GravarAssinatura(eAssinatura e)
+        {
+            List<eGenericoCampos>? lista = new List<eGenericoCampos>();
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("INSERT INTO ecodedev.assinaturas ");
+            sb.Append("(IdCliente, Ativo, DataHora, DataPagamento, Expirar, TipoPagamento, TipoPlano, ValorPago)");
+            sb.Append(" VALUES ");
+            sb.Append(string.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}');", e.IdCliente, e.Ativo, e.DataHora.ToString(@"yyyy-MM-dd HH:mm:ss"), e.DataPagamento.ToString(@"yyyy-MM-dd HH:mm:ss"), e.Expirar.ToString(@"yyyy-MM-dd HH:mm:ss"), e.TipoPagamento, e.TipoPlano, e.ValorPago.ToString().Replace(",", ".")));
+
+            string json = RetornarJSONQueryInsert(e, sb.ToString());
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eGenericoCampos>?>(json);
+            }
+
+            return lista?.Count > 0 && lista[0].Id > 0 ? "Sucesso" : "Erro";
+        }
+
         public int GravarCliente(eCliente e)
         {
             List<eGenericoCampos>? lista = new List<eGenericoCampos>();
@@ -188,7 +207,7 @@ namespace eCode.Models
             return lista;
         }
 
-        public eCliente? ObterDados(int idCliente)
+        public eCliente? ObterDadosCliente(int idCliente)
         {
             List<eCliente>? lista = new List<eCliente>();
             string json = RetornarJSONQuerySelect(string.Format("SELECT Id, Nome, CPF, Email, Senha, Telefone, DataHora, Visivel, Apoiador, Perfil FROM ecodedev.clientes WHERE (Id = {0} AND Visivel = 'S')", idCliente));
