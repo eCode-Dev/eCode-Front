@@ -31,6 +31,16 @@ namespace eCode.Controllers
             return Redirect("~/dashboard");
         }
 
+        public IActionResult ExcluirDashboard()
+        {
+            string? perfil = Request.Cookies["Perfil"] != null ? Request.Cookies["Perfil"] : "R";
+            new API().ExluirInformacaoDashBoard(int.Parse(Request.Form["hdnId"]), perfil);
+
+            TempData["Sucess"] = "Dados excluído com sucesso.";
+
+            return View("Index");
+        }
+
         [HttpPost]
         public IActionResult RealizarPagamento()
         {
