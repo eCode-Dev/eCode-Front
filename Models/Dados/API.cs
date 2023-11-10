@@ -129,7 +129,7 @@ namespace eCode.Models
         #endregion
 
 
-        #region Metodos
+        #region Metodos Publicos
 
         public string? AlterarCliente(eCliente e)
         {
