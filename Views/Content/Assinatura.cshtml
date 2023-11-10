@@ -1,3 +1,35 @@
-﻿@{
+﻿@model eCode.Models.eAssinatura
+@{
     ViewData["Title"] = "Assinaturas";
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    var cookiePerfil = Context.Request.Cookies["Perfil"];
+    var cookieId = Context.Request.Cookies["Codigo"];
 }
+
+<section class="form-container">
+    <h1>Assinaturas</h1>
+
+    <div style="clear: both; height: 12px;"></div>
+
+    @if (cookieId != null && (Model != null && string.Equals(Model.Ativo, "S")))
+    {
+        @using (Html.BeginForm("CancelarAssinatura", "Content", FormMethod.Post, new { @class = "form" }))
+        {
+            <p>
+                @(cookieLogado != null ? string.Format("{0}, ", cookieLogado.ToString()) : string.Empty) sua assinatura é @(string.Equals(Model.TipoPlano, "B") ? "\"Plano Básico\"" : string.Equals(Model.TipoPlano, "M") ? "\"Plano Médio\"" : "\"Plano Premium\""), sua assinatura expira em @Model.Expirar.ToString(@"dd/MM/yyyy 'às' HH:mm")
+                . Caso queira cancelar, só clicar no botão abaixo.
+            </p>
+
+            <div class="d-flex flex-column justify-content-center align-items-center text-light text-center">
+                <input type="hidden" name="hdnId" id="hdnId" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger" id="btnCancelar" name="btnCancelar">Cancelar assinatura</button>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-light">
+            Não foi possui encontrar nenhuma assinatura cadastrada.
+        </p>
+    }
+</section>

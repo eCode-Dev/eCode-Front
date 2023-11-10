@@ -50,6 +50,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Content", action = "FormPagamento" });
 
 app.MapControllerRoute(
+    name: "Assinaturas",
+    pattern: "assinaturas",
+    defaults: new { controller = "Content", action = "CarregarAssinatura" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

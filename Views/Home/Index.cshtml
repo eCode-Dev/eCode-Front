@@ -1,4 +1,10 @@
-﻿<section class="text-center">
+﻿@model List<eCode.Models.eDesafios>
+@{
+    var cookieLogado = Context.Request.Cookies["Cliente"];
+    var cookieApoiador = Context.Request.Cookies["Apoiador"];
+}
+
+<section class="text-center">
     @Html.Partial("_Informativo");
 
     <div style="clear: both; height: 40px;"></div>
@@ -7,5 +13,8 @@
 
     <div style="clear: both; height: 40px;"></div>
 
-    @Html.Partial("_Assinatura")
+    @if (cookieApoiador == null || string.Equals(cookieApoiador.ToUpper(), "N"))
+    {
+        @Html.Partial("_Assinatura")
+    }
 </section>

@@ -124,6 +124,26 @@ namespace eCode.Models
             return lista?.Count > 0 ? lista[0].Campo : string.Empty;
         }
 
+        public void AlterarClienteApoiador(eGenericoCampos e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("UPDATE ecodedev.clientes SET ");
+            sb.Append(string.Format("Apoiador = '{0}' ", e.Campo));
+            sb.Append(string.Format("WHERE (Id = '{0}');", e.Id));
+
+            RetornarJSONQueryUpdate(e, sb.ToString());
+        }
+
+        public void AlterarPlano(eGenericoCampos e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("UPDATE ecodedev.assinaturas SET ");
+            sb.Append(string.Format("Ativo = '{0}' ", e.Campo));
+            sb.Append(string.Format("WHERE (Id = '{0}');", e.Id));
+
+            RetornarJSONQueryUpdate(e, sb.ToString());
+        }
+
         public string? GravarAssinatura(eAssinatura e)
         {
             List<eGenericoCampos>? lista = new List<eGenericoCampos>();
@@ -205,6 +225,19 @@ namespace eCode.Models
             }
 
             return lista;
+        }
+
+        public eAssinatura? ObterAssinatura(int idCliente)
+        {
+            List<eAssinatura>? lista = new List<eAssinatura>();
+            string json = RetornarJSONQuerySelect(string.Format("SELECT A.Id, A.Ativo, A.Expirar, A.TipoPlano, A.Ativo from ecodedev.clientes C INNER JOIN ecodedev.assinaturas A on A.IdCliente = C.Id WHERE (C.Apoiador = 'S' AND C.Id = '{0}');", idCliente));
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eAssinatura>?>(json);
+            }
+
+            return lista?.Count > 0 ? lista[0] : null;
         }
 
         public eCliente? ObterDadosCliente(int idCliente)
