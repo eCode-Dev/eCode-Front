@@ -209,6 +209,34 @@ namespace eCode.Models
             return lista?.Count > 0 ? lista[0].Id : 0;
         }
 
+        public List<eDesafios>? ListarDashboardAdministrador()
+        {
+            List<eDesafios>? lista = new List<eDesafios>();
+
+            string json = RetornarJSONQuerySelect("SELECT * FROM ecodedev.desafios ORDER BY DataHora DESC, Titulo ASC;");
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eDesafios>?>(json);
+            }
+
+            return lista;
+        }
+
+        public List<eDesafios>? ListarDashboardRestrito(int id)
+        {
+            List<eDesafios>? lista = new List<eDesafios>();
+
+            string json = RetornarJSONQuerySelect(string.Format("SELECT DC.Id, D.Titulo, DC.Pontuacao, DC.DataHora AS DataHoraEnviado, D.Foto FROM ecodedev.desafios_concluidos DC INNER JOIN ecodedev.desafios D ON D.Id = DC.IdDesafio WHERE (DC.IdCliente = '{0}') ORDER BY Id DESC;", id));
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                lista = JsonConvert.DeserializeObject<List<eDesafios>?>(json);
+            }
+
+            return lista;
+        }
+
         public List<eDesafios>? ListarDesafios(string filtro, string? apoiador, string? perfil)
         {
             List<eDesafios>? lista = new List<eDesafios>();
