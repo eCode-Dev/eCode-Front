@@ -15,6 +15,39 @@ namespace eCode.Models
             return new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build().GetConnectionString("MySqlConnection");
         }
 
+        private string RetornarJSONQueryDelete<T>(T entidade, string query) where T : class
+        {
+           DataTable dt = new DataTable();
+            int executou = 0;
+
+            using (MySqlConnection conexao = new MySqlConnection(ObterConnectionString()))
+            {
+                conexao.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, conexao))
+                {
+                    PropertyInfo[] propriedades = typeof(T).GetProperties();
+                    foreach (PropertyInfo propriedade in propriedades)
+                    {
+                        cmd.Parameters.AddWithValue("@" + propriedade.Name, propriedade.GetValue(entidade));
+                    }
+
+                    try
+                    {
+                        executou = cmd.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        executou = 0;
+                    }
+
+                    dt.Columns.Add("Campo", typeof(string));
+                    dt.Rows.Add(executou > 0 ? "Sucesso" : "Erro");
+                }
+            }
+
+            return JsonConvert.SerializeObject(dt, Formatting.Indented);
+        }
+
         private string RetornarJSONQueryInsert<T>(T entidade, string query) where T : class
         {
             DataTable dt = new DataTable();
@@ -134,14 +167,9 @@ namespace eCode.Models
             RetornarJSONQueryUpdate(e, sb.ToString());
         }
 
-        public void AlterarPlano(eGenericoCampos e)
+        public void DeletarPlano(eGenericoCampos e)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("UPDATE ecodedev.assinaturas SET ");
-            sb.Append(string.Format("Ativo = '{0}' ", e.Campo));
-            sb.Append(string.Format("WHERE (Id = '{0}');", e.Id));
-
-            RetornarJSONQueryUpdate(e, sb.ToString());
+            RetornarJSONQueryDelete(e, string.Format("DELETE FROM ecodedev.assinaturas WHERE (Id = '{0}');", e.Id));
         }
 
         public string? GravarAssinatura(eAssinatura e)
