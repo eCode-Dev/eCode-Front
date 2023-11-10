@@ -45,6 +45,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Content", action = "Index" });
 
 app.MapControllerRoute(
+    name: "Pagamentos",
+    pattern: "pagamentos",
+    defaults: new { controller = "Content", action = "FormPagamento" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
