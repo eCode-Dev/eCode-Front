@@ -18,7 +18,53 @@
         </p>
     }
 
-    <section class="text-light">
-        Ola
-    </section>    
+    @if (cookiePerfil != null && string.Equals(cookiePerfil, "A"))
+    {
+        <section class="container">
+            <div class="container-dashboard">
+                <div class="content">
+                    <div class="image-container"></div>
+                    <h2 class="titulo">Seu Título</h2>
+                    <p class="date-time">Data e Hora</p>
+                    <p class="score">100 pts</p>
+                </div>
+                <div class="buttons">
+                    <button class="edit-button">Editar</button>
+                    <button class="delete-button">Excluir</button>
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="container">
+            <div class="container-dashboard">
+                <div class="card">
+                    <div class="image-container"></div>
+                    <div class="card-content">
+                        <h2 class="titulo">Seu Título</h2>
+                        <p class="date-time">Data e Hora</p>
+                        <p class="score">Pontuação: 100 pts</p>
+                        <div class="buttons">
+                            <button class="edit-button">Editar</button>
+                            <button class="delete-button">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="image-container"></div>
+                    <div class="card-content">
+                        <h2 class="titulo">Seu Título</h2>
+                        <p class="date-time">Data e Hora</p>
+                        <p class="score">Pontuação: 100 pts</p>
+                        <div class="buttons">
+                            <button class="edit-button">Editar</button>
+                            <button class="delete-button">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
 }

@@ -333,3 +333,133 @@ body {
     font-size: large;
     color: #4ca541;
 }
+
+
+
+.titulo {
+    margin: 0;
+    color: #44BD32;
+}
+
+.container-dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.card {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-container {
+    width: 100%;
+    height: 200px;
+    background-image: url('sua_imagem.jpg'); /* Substitua 'sua_imagem.jpg' pelo caminho da sua imagem */
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+h2 {
+    margin: 0;
+}
+
+.date-time {
+    color: #44BD32;
+}
+
+.score {
+    color: #00bfff; /* cor azul */
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.edit-button,
+.delete-button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #f0932b; /* cor amarela */
+    color: #fff;
+    margin-right: 10px;
+}
+
+.delete-button {
+    background-color: #eb4d4b; /* cor vermelha */
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+
+    .container-dashboard {
+        padding: 10px;
+    }
+
+    .image-container {
+        height: 150px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .edit-button,
+    .delete-button {
+        margin-top: 10px;
+    }
+}
+
+.ranking-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid #44BD32;
+    border-radius: 5px;
+}
+
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #44BD32;
+}
+
+    .rank-item:last-child {
+        border-bottom: none;
+    }
+
+    .rank-item span {
+        color: #44BD32;
+    }
+
+@media only screen and (max-width: 600px) {
+    .ranking-container {
+        max-width: 100%;
+    }
+}

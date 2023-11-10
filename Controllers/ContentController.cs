@@ -120,6 +120,11 @@ namespace eCode.Controllers
             return View("Desafios", api.ListarDesafios(filtro, apoiador, perfil));
         }
 
+        public IActionResult CarregarRanking()
+        {
+            return View("Ranking", new API().ListarRanking());
+        }
+
         public IActionResult FormPagamento()
         {
             return View("Pagamentos");
