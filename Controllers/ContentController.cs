@@ -1,6 +1,5 @@
 ﻿using eCode.Models;
 using Microsoft.AspNetCore.Mvc;
-using Renci.SshNet.Messages;
 
 namespace eCode.Controllers
 {
@@ -27,7 +26,7 @@ namespace eCode.Controllers
             };
 
             api.AlterarClienteApoiador(eCliente);
-            api.AlterarPlano(eAssinatura);
+            api.DeletarPlano(eAssinatura);
 
             return Redirect("~/dashboard");
         }
